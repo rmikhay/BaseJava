@@ -1,6 +1,4 @@
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -21,27 +19,15 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         int index = findResumeIndex(uuid);
-        if (index != -1) {
-            return storage[index];
-        }
-        return null;
-    }
-
-    private int findResumeIndex(String uuid) {
-        for (int i = 0; i < sizeStorage; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
+        return index > -1 ? storage[index] : null;
     }
 
     void delete(String uuid) {
         int index = findResumeIndex(uuid);
-        if (index != -1) {
-            List<Resume> tempStorage = new ArrayList<>(Arrays.asList(storage));
-            tempStorage.remove(index);
-            storage = tempStorage.toArray(new Resume[0]);
+        if (index > -1) {
+            int countRemainingArray = sizeStorage - index - 1;
+            Resume[] tempStorage = Arrays.copyOfRange(storage, index + 1, sizeStorage);
+            System.arraycopy(tempStorage, 0, storage, index, countRemainingArray);
             sizeStorage--;
         }
     }
@@ -55,5 +41,14 @@ public class ArrayStorage {
 
     int size() {
         return sizeStorage;
+    }
+
+    private int findResumeIndex(String uuid) {
+        for (int i = 0; i < sizeStorage; i++) {
+            if (storage[i].toString().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
