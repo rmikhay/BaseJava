@@ -25,9 +25,8 @@ public class ArrayStorage {
     void delete(String uuid) {
         int index = findResumeIndex(uuid);
         if (index > -1) {
-            int countRemainingArray = sizeStorage - index - 1;
-            Resume[] tempStorage = Arrays.copyOfRange(storage, index + 1, sizeStorage);
-            System.arraycopy(tempStorage, 0, storage, index, countRemainingArray);
+            int countResumes = sizeStorage - index - 1;
+            System.arraycopy(storage, index + 1, storage, index, countResumes);
             sizeStorage--;
         }
     }
